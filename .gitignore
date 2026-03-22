@@ -1,0 +1,3 @@
+# External reference repos — not part of this config
+docs/lazy.nvim/
+docs/vim-tmux-navigator/

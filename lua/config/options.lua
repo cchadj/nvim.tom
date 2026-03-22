@@ -1,0 +1,22 @@
+local opt = vim.opt
+
+opt.number = true
+opt.relativenumber = true
+opt.expandtab = true
+opt.shiftwidth = 2
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.smartindent = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = false
+opt.signcolumn = 'yes'      -- prevents gutter shifts from LSP diagnostic signs
+opt.cursorline = true
+opt.scrolloff = 8
+opt.wrap = false
+opt.clipboard = 'unnamedplus'
+opt.splitbelow = true
+opt.splitright = true
+opt.termguicolors = true
+opt.updatetime = 250        -- faster CursorHold (used by LSP document highlight)
+opt.timeoutlen = 300
