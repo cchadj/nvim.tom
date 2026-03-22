@@ -33,6 +33,10 @@ docs/
 | [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | LSP server configurations |
 | [oil.nvim](https://github.com/stevearc/oil.nvim) | File explorer as an editable buffer |
 | [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between vim splits and tmux panes |
+| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Fuzzy finder for files, grep, buffers, LSP symbols |
+| [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim) | Native fzf sorter for telescope (faster matching) |
+| [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Lua utility library (telescope dependency) |
+| [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) | Sidebar file tree explorer |
 
 ## LSP
 
@@ -73,6 +77,27 @@ Leader is `<Space>`.
 | `<leader>d` | Show diagnostic float |
 | `[d` / `]d` | Previous / next diagnostic |
 | `<leader>q` | Diagnostics to quickfix |
+
+### Telescope
+
+| Key | Action |
+|-----|--------|
+| `<leader>ff` | Find files |
+| `<leader>fg` | Live grep (requires ripgrep) |
+| `<leader>fb` | Open buffers |
+| `<leader>fr` | Recent files |
+| `<leader>fh` | Help tags |
+| `<leader>fd` | Diagnostics |
+| `<leader>fs` | LSP document symbols |
+| `<leader>/` | Fuzzy find in current buffer |
+
+### File tree (nvim-tree)
+
+| Key | Action |
+|-----|--------|
+| `<C-n>` | Toggle file tree |
+| `<leader>E` | Reveal current file in tree |
+| `g?` | Show all tree keymaps (inside tree) |
 
 ### Navigation
 

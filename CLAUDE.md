@@ -18,6 +18,8 @@ lua/
     lsp.lua                 -- mason, mason-lspconfig, nvim-lspconfig, lua_ls
     oil.lua                 -- file explorer (stevearc/oil.nvim)
     vim-tmux-navigator.lua  -- seamless vim/tmux split navigation
+    telescope.lua           -- fuzzy finder (files, grep, buffers, LSP symbols)
+    nvim-tree.lua           -- sidebar file tree (nvim-tree/nvim-tree.lua)
 docs/
   design.md                 -- human-readable design decisions log
 ```

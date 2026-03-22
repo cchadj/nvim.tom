@@ -169,6 +169,38 @@ The snippet uses `ps -o state= -o comm=` to detect whether the current pane is r
 
 ---
 
+---
+
+## telescope.nvim — fuzzy finder
+
+Fuzzy finder for files, text search, buffers, LSP symbols, diagnostics, and help tags. Renders results in a floating picker with a live preview pane.
+
+**`version = '*'`:** pins to the latest release tag rather than HEAD, per the telescope docs recommendation.
+
+**`telescope-fzf-native.nvim`:** compiled C extension that replaces telescope's default Lua sorter with fzf's algorithm. Significantly faster, especially on large projects. Requires `make` at install time (`build = 'make'`).
+
+**`plenary.nvim`:** utility library required by telescope. No config needed.
+
+**Lazy-loaded via `keys`:** telescope loads on first keymap use, not at startup.
+
+**`<C-k>` conflict with vim-tmux-navigator:** telescope's default insert-mode mappings bind `<C-k>` to "move selection up". This collides with vim-tmux-navigator's `<C-k>` (navigate up). Since telescope intercepts all keys while open this isn't a practical conflict, but the mapping is cleared (`false`) anyway for consistency and `<C-u>` is used for that action instead — matching the mental model of scrolling up.
+
+---
+
+## nvim-tree — sidebar file tree
+
+Persistent sidebar showing the directory tree with git status, LSP diagnostics, and file icons. Complements oil.nvim: oil is for quick buffer-style edits to the filesystem (rename, move, delete by editing text); nvim-tree is for getting a structural overview and navigating a project.
+
+**Netrw disabled in `init.lua`:** the docs strongly advise setting `vim.g.loaded_netrw = 1` and `vim.g.loaded_netrwPlugin = 1` before any plugins load. These are placed at the top of `init.lua`, above `require('config.options')`. Note: `netrwPlugin` was already disabled via lazy.nvim's `performance.rtp.disabled_plugins` — the globals are belt-and-suspenders that prevent netrw from ever initialising.
+
+**`version = '*'`:** pins to the latest release tag, same pattern as telescope.
+
+**`filters.dotfiles = false`:** show hidden files by default, consistent with oil's `show_hidden = true`.
+
+**`renderer.group_empty = true`:** collapses chains of single-child empty directories into one line (e.g. `lua/config/` instead of `lua/ > config/`), reducing visual noise in deeply nested structures.
+
+**`<leader>e` / `<leader>E`:** toggle the tree sidebar and reveal the current file in the tree respectively. Lazy-loaded via `keys` — nvim-tree loads on first use.
+
 **No treesitter.** Syntax highlighting uses Neovim's built-in regex engine for now. Treesitter will be added when it's needed for something specific (e.g. better indent or text objects), not as a default.
 
 ---
