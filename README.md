@@ -43,6 +43,7 @@ docs/
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Treesitter syntax highlighting and indentation |
 | [conform.nvim](https://github.com/stevearc/conform.nvim) | Autoformat on save (clang-format for C/C++) |
 | [nvim-lint](https://github.com/mfussenegger/nvim-lint) | Linting framework (C++ linting handled by clangd) |
+| [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Embedded terminal + C++ compile/run keymaps |
 
 ## LSP
 
@@ -112,6 +113,23 @@ Leader is `<Space>`.
 |-----|--------|
 | `<C-h/j/k/l>` | Move left/down/up/right across Neovim splits and tmux panes |
 | `<C-\>` | Jump to previous split/pane |
+
+### Terminal
+
+| Key | Action |
+|-----|--------|
+| `<leader>tt` | Toggle terminal (horizontal split, 15 rows) |
+| `<leader>ts` | Send current line to terminal |
+| `<leader>ts` (visual) | Send selection to terminal |
+
+### Competitive C++ (active in C/C++ buffers)
+
+| Key | Action |
+|-----|--------|
+| `<F5>` | Write, compile, run — interactive stdin from keyboard |
+| `<F6>` | Write, compile, run with `< input.txt` in same directory |
+| `<F9>` | Write, compile only — errors go to quickfix (`[q` / `]q`) |
+| `<leader>cp` | Create new problem file from `templates/cp.cpp` |
 
 ### Completion
 

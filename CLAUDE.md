@@ -25,6 +25,9 @@ lua/
     treesitter.lua          -- nvim-treesitter syntax highlighting + indent
     formatting.lua          -- conform.nvim, autoformat on save (clang-format)
     linting.lua             -- nvim-lint framework (C++ linting via clangd)
+    toggleterm.lua          -- terminal + C++ compile/run keymaps (F5/F6/F9)
+templates/
+  cp.cpp                    -- competitive programming boilerplate
 docs/
   design.md                 -- human-readable design decisions log
 ```

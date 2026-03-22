@@ -151,14 +151,14 @@ return {
       --   --clang-tidy                surface clang-tidy checks as LSP diagnostics.
       --   --header-insertion=iwyu     autoimport: insert the canonical header for
       --                               a symbol (Include What You Use).
-      --   --completion-detailed       full return/param types per completion item.
-      --   --function-arg-placeholders snippet placeholders for function args;
+      --   --completion-style=detailed  full return/param types per completion item.
+      --   --function-arg-placeholders=1 snippet placeholders for function args;
       --                               requires LuaSnip to expand them.
       --   --fallback-style=llvm       formatting fallback when no .clang-format.
-      --   --extra-arg=-std=c++23      default to C++23 for files without a
-      --                               compile_commands.json. Enables std::print,
-      --                               ranges, concepts, and other modern features.
-      --                               Overridden per-project by compile_commands.json.
+      --
+      -- C++23 default: set via ~/.config/clangd/config.yaml (CompileFlags.Add),
+      -- since clangd 22 removed --extra-arg. Overridden per-project by
+      -- compile_commands.json or a local .clangd file.
       -- ---------------------------------------------------------------
       vim.lsp.config('clangd', {
         cmd = {
@@ -166,10 +166,9 @@ return {
           '--background-index',
           '--clang-tidy',
           '--header-insertion=iwyu',
-          '--completion-detailed',
-          '--function-arg-placeholders',
+          '--completion-style=detailed',
+          '--function-arg-placeholders=1',
           '--fallback-style=llvm',
-          '--extra-arg=-std=c++23',
         },
       })
 
