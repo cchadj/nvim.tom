@@ -69,7 +69,7 @@ return {
           -- Builds the compile command string.
           local function compile_cmd(src, out)
             return string.format(
-              'g++-14 -std=c++23 -O2 -Wall -Wextra -o %s %s',
+              'g++-14 -std=c++23 -O2 -Wall -Wextra -Wconversion -g -o %s %s',
               vim.fn.shellescape(out),
               vim.fn.shellescape(src)
             )
@@ -118,7 +118,7 @@ return {
             local stderr_lines = {}
 
             vim.fn.jobstart(
-              { 'g++-14', '-std=c++23', '-O2', '-Wall', '-Wextra', '-o', out, src },
+              { 'g++-14', '-std=c++23', '-O2', '-Wall', '-Wextra', '-Wconversion', '-g', '-o', out, src },
               {
                 stderr_buffered = true,
                 on_stderr = function(_, data)
