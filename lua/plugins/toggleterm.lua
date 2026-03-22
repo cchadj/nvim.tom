@@ -7,6 +7,7 @@
 -- C/C++ keymaps (FileType autocmd, buffer-local):
 --   <F5>        write → compile → run interactively (stdin from keyboard)
 --   <F6>        write → compile → run with < input.txt
+--   <F7>        write → compile → run with < <exec-name>.txt (e.g. main.txt)
 --   <F9>        write → compile only → errors into quickfix
 --   <leader>cp  create new problem file from templates/cp.cpp
 
@@ -94,6 +95,19 @@ return {
               .. ' < '  .. vim.fn.shellescape(input)
             require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
           end, 'F6: compile + run with input.txt')
+
+          -- ── F7: compile + run with < <exec-name>.txt ──────────────
+          -- Like F6 but uses <exec-name>.txt instead of input.txt.
+          -- e.g. main.cpp → main.txt
+          buf_map('<F7>', function()
+            vim.cmd('write')
+            local src, out, _ = paths()
+            local input = out .. '.txt'
+            local cmd = compile_cmd(src, out)
+              .. ' && ' .. vim.fn.shellescape(out)
+              .. ' < '  .. vim.fn.shellescape(input)
+            require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
+          end, 'F7: compile + run with <exec>.txt')
 
           -- ── F9: compile only → quickfix ───────────────────────────
           -- Async via jobstart — does not block the UI.
