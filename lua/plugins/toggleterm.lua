@@ -75,12 +75,12 @@ return {
           end
 
           -- ── F5: compile + run interactively ───────────────────────
-          -- go_back=false: focus stays in the terminal so the user can type stdin.
+          -- go_back=true: focus returns to editor after launching.
           buf_map('<F5>', function()
             vim.cmd('write')
             local src, out, _ = paths()
             local cmd = compile_cmd(src, out) .. ' && ' .. vim.fn.shellescape(out)
-            require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, false)
+            require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
           end, 'F5: compile + run (interactive)')
 
           -- ── F6: compile + run with < input.txt ────────────────────
