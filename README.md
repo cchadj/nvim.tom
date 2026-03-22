@@ -37,12 +37,19 @@ docs/
 | [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim) | Native fzf sorter for telescope (faster matching) |
 | [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Lua utility library (telescope dependency) |
 | [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) | Sidebar file tree explorer |
+| [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim) | C++ extras: inlay hints, AST viewer, header/source switching |
+| [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) | Completion engine |
+| [LuaSnip](https://github.com/L3MON4D3/LuaSnip) | Snippet engine (expands clangd function-arg placeholders) |
+| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Treesitter syntax highlighting and indentation |
+| [conform.nvim](https://github.com/stevearc/conform.nvim) | Autoformat on save (clang-format for C/C++) |
+| [nvim-lint](https://github.com/mfussenegger/nvim-lint) | Linting framework (C++ linting handled by clangd) |
 
 ## LSP
 
 Uses Neovim 0.11's native `vim.lsp.config()` / `vim.lsp.enable()` API. Currently configured servers:
 
 - `lua_ls` — Lua, with full Neovim runtime awareness
+- `clangd` — C / C++, with background indexing, clang-tidy, autoimport headers
 
 To add a server: add its Mason package to `ensure_installed` in `lua/plugins/lsp.lua`, then call `vim.lsp.enable('server_name')`.
 
@@ -105,6 +112,26 @@ Leader is `<Space>`.
 |-----|--------|
 | `<C-h/j/k/l>` | Move left/down/up/right across Neovim splits and tmux panes |
 | `<C-\>` | Jump to previous split/pane |
+
+### Completion
+
+| Key | Action |
+|-----|--------|
+| `<C-Space>` | Trigger completion |
+| `<C-n>` / `<C-p>` | Next / previous item |
+| `<CR>` | Confirm selection |
+| `<Tab>` / `<S-Tab>` | Next/previous item, or jump snippet placeholder |
+| `<C-d>` / `<C-f>` | Scroll docs up / down |
+
+### C++ / clangd (active in C and C++ buffers)
+
+| Key | Action |
+|-----|--------|
+| `<A-o>` | Switch between header and source file |
+| `<leader>cA` | Clang AST viewer |
+| `<leader>ci` | Symbol info (type + canonical declaration) |
+| `<leader>cm` | clangd memory usage |
+| `<leader>ch` | Toggle inlay hints |
 
 ### File explorer (oil.nvim)
 

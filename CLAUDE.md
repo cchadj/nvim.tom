@@ -20,6 +20,11 @@ lua/
     vim-tmux-navigator.lua  -- seamless vim/tmux split navigation
     telescope.lua           -- fuzzy finder (files, grep, buffers, LSP symbols)
     nvim-tree.lua           -- sidebar file tree (nvim-tree/nvim-tree.lua)
+    clangd-extensions.lua   -- C++ extras: inlay hints, AST, header/source switch
+    completion.lua          -- nvim-cmp + LuaSnip autocomplete
+    treesitter.lua          -- nvim-treesitter syntax highlighting + indent
+    formatting.lua          -- conform.nvim, autoformat on save (clang-format)
+    linting.lua             -- nvim-lint framework (C++ linting via clangd)
 docs/
   design.md                 -- human-readable design decisions log
 ```

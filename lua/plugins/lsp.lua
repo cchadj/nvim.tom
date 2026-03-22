@@ -12,7 +12,7 @@ return {
     lazy = false,
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      ensure_installed = { 'lua_ls' },
+      ensure_installed = { 'lua_ls', 'clangd' },
       -- Only enable servers we explicitly call vim.lsp.enable() on below.
       automatic_enable = false,
     },
@@ -27,6 +27,18 @@ return {
       'mason-org/mason-lspconfig.nvim',
     },
     config = function()
+      -- ---------------------------------------------------------------
+      -- Advertise nvim-cmp's extended completion capabilities to all servers.
+      -- vim.lsp.config('*', ...) is the Neovim 0.11 way to set a base config
+      -- that every server inherits. cmp_nvim_lsp.default_capabilities() adds
+      -- snippet support, labelDetails, and other flags clangd uses for richer
+      -- completion items. Must be called before any vim.lsp.enable() call.
+      -- ---------------------------------------------------------------
+      local ok, cmp_lsp = pcall(require, 'cmp_nvim_lsp')
+      if ok then
+        vim.lsp.config('*', { capabilities = cmp_lsp.default_capabilities() })
+      end
+
       -- ---------------------------------------------------------------
       -- LspAttach: keymaps active only when an LSP is running for the buffer.
       -- ---------------------------------------------------------------
@@ -129,6 +141,39 @@ return {
       })
 
       vim.lsp.enable('lua_ls')
+
+      -- ---------------------------------------------------------------
+      -- clangd: C / C++ language server.
+      --
+      -- Flag rationale:
+      --   --background-index          index project in background; go-to-def
+      --                               works immediately while index builds.
+      --   --clang-tidy                surface clang-tidy checks as LSP diagnostics.
+      --   --header-insertion=iwyu     autoimport: insert the canonical header for
+      --                               a symbol (Include What You Use).
+      --   --completion-detailed       full return/param types per completion item.
+      --   --function-arg-placeholders snippet placeholders for function args;
+      --                               requires LuaSnip to expand them.
+      --   --fallback-style=llvm       formatting fallback when no .clang-format.
+      --   --extra-arg=-std=c++23      default to C++23 for files without a
+      --                               compile_commands.json. Enables std::print,
+      --                               ranges, concepts, and other modern features.
+      --                               Overridden per-project by compile_commands.json.
+      -- ---------------------------------------------------------------
+      vim.lsp.config('clangd', {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--clang-tidy',
+          '--header-insertion=iwyu',
+          '--completion-detailed',
+          '--function-arg-placeholders',
+          '--fallback-style=llvm',
+          '--extra-arg=-std=c++23',
+        },
+      })
+
+      vim.lsp.enable('clangd')
 
       -- ---------------------------------------------------------------
       -- To add more servers:
