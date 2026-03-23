@@ -48,6 +48,7 @@ return {
           local map = function(keys, func, desc)
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
 
           -- Navigation
           map('gd', vim.lsp.buf.definition,      'Goto Definition')
@@ -65,6 +66,16 @@ return {
           map('<F18>',      vim.lsp.buf.rename,      'Rename Symbol') -- Shift+F6
           map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
 
+          -- Inlay hints (variable types, parameter names inlined in code).
+          -- Enabled by default; toggle with <leader>ih.
+          vim.lsp.inlay_hint.enable(true, { bufnr = event.buf })
+          map('<leader>ih', function()
+            vim.lsp.inlay_hint.enable(
+              not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
+              { bufnr = event.buf }
+            )
+          end, 'Toggle Inlay Hints')
+
           -- Diagnostics
           map('<leader>d', vim.diagnostic.open_float, 'Show Diagnostic')
           map('[d',        vim.diagnostic.goto_prev,  'Previous Diagnostic')
@@ -72,7 +83,6 @@ return {
           map('<leader>q', vim.diagnostic.setloclist, 'Diagnostics to Quickfix')
 
           -- Document highlight: highlight all refs to symbol under cursor on hold.
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client:supports_method('textDocument/documentHighlight', event.buf) then
             local group = vim.api.nvim_create_augroup('nvimtom-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -177,6 +187,21 @@ return {
 
       -- ── TypeScript / JavaScript ─────────────────────────────────────
       -- ts_ls handles JS, TS, JSX, TSX, and Node.js projects.
+      -- Inlay hints show inferred types inline (e.g. useState return type).
+      local ts_hints = {
+        includeInlayParameterNameHints            = 'literals',
+        includeInlayVariableTypeHints             = true,
+        includeInlayFunctionLikeReturnTypeHints   = true,
+        includeInlayPropertyDeclarationTypeHints  = true,
+        includeInlayFunctionParameterTypeHints    = true,
+        includeInlayEnumMemberValueHints          = true,
+      }
+      vim.lsp.config('ts_ls', {
+        settings = {
+          typescript  = { inlayHints = ts_hints },
+          javascript  = { inlayHints = ts_hints },
+        },
+      })
       vim.lsp.enable('ts_ls')
 
       -- eslint LSP surfaces ESLint diagnostics inline and provides
