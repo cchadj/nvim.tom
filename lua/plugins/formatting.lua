@@ -13,6 +13,18 @@ return {
         c   = { 'clang_format' },
         cpp = { 'clang_format' },
         -- lua = { 'stylua' },  -- uncomment once stylua is added to Mason ensure_installed
+
+        -- Web: prettier handles all JS/TS/web filetypes.
+        -- Uses the project-local prettier (node_modules/.bin/prettier) if present,
+        -- otherwise falls back to a global install (npm install -g prettier).
+        javascript      = { 'prettier' },
+        javascriptreact = { 'prettier' },
+        typescript      = { 'prettier' },
+        typescriptreact = { 'prettier' },
+        html            = { 'prettier' },
+        css             = { 'prettier' },
+        json            = { 'prettier' },
+        yaml            = { 'prettier' },
       },
 
       -- Format synchronously on save.

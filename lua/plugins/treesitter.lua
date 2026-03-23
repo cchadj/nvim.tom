@@ -14,7 +14,8 @@ return {
       --   ourselves via a FileType autocmd.
       --
       -- Install our parsers asynchronously at startup (skips already-installed ones).
-      require('nvim-treesitter').install({ 'c', 'cpp', 'lua', 'vim', 'vimdoc' })
+      require('nvim-treesitter').install({ 'c', 'cpp', 'lua', 'vim', 'vimdoc',
+        'javascript', 'typescript', 'tsx', 'html', 'css', 'json' })
 
       -- Enable treesitter highlighting for every buffer whose filetype has a
       -- parser. pcall silently skips filetypes with no parser installed.

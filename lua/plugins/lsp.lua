@@ -12,7 +12,7 @@ return {
     lazy = false,
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      ensure_installed = { 'lua_ls', 'clangd' },
+      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint' },
       -- Only enable servers we explicitly call vim.lsp.enable() on below.
       automatic_enable = false,
     },
@@ -62,6 +62,7 @@ return {
 
           -- Actions
           map('<leader>rn', vim.lsp.buf.rename,      'Rename Symbol')
+          map('<F18>',      vim.lsp.buf.rename,      'Rename Symbol') -- Shift+F6
           map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
 
           -- Diagnostics
@@ -173,6 +174,14 @@ return {
       })
 
       vim.lsp.enable('clangd')
+
+      -- ── TypeScript / JavaScript ─────────────────────────────────────
+      -- ts_ls handles JS, TS, JSX, TSX, and Node.js projects.
+      vim.lsp.enable('ts_ls')
+
+      -- eslint LSP surfaces ESLint diagnostics inline and provides
+      -- an :EslintFixAll code action.
+      vim.lsp.enable('eslint')
 
       -- ---------------------------------------------------------------
       -- To add more servers:
