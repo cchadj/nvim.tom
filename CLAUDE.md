@@ -13,9 +13,10 @@ init.lua                    -- entry point: sets leader keys, loads config modul
 lua/
   config/
     options.lua             -- vim.opt settings
+    keymaps.lua             -- global keymaps (comment toggle, terminal escape)
     lazy.lua                -- lazy.nvim bootstrap + plugin discovery
   plugins/
-    lsp.lua                 -- mason, mason-lspconfig, nvim-lspconfig, lua_ls
+    lsp.lua                 -- mason, mason-lspconfig, nvim-lspconfig, all LSP servers
     oil.lua                 -- file explorer (stevearc/oil.nvim)
     vim-tmux-navigator.lua  -- seamless vim/tmux split navigation
     telescope.lua           -- fuzzy finder (files, grep, buffers, LSP symbols)
@@ -23,14 +24,42 @@ lua/
     clangd-extensions.lua   -- C++ extras: inlay hints, AST, header/source switch
     completion.lua          -- nvim-cmp + LuaSnip autocomplete
     treesitter.lua          -- nvim-treesitter syntax highlighting + indent
-    formatting.lua          -- conform.nvim, autoformat on save (clang-format)
-    linting.lua             -- nvim-lint framework (C++ linting via clangd)
+    formatting.lua          -- conform.nvim, autoformat on save
+    linting.lua             -- nvim-lint framework
     toggleterm.lua          -- terminal + C/C++ compile/run keymaps (F5/F6/F7/F9)
     dap.lua                 -- debugger: nvim-dap + codelldb (F1-F4/F8, <leader>d*)
+    colorscheme.lua         -- catppuccin (mocha)
 templates/
   cp.cpp                    -- competitive programming boilerplate
 docs/
   design.md                 -- human-readable design decisions log
+```
+
+## System prerequisites
+
+```bash
+# C/C++ compiler (C++23 + C17 + std::print support)
+sudo apt install g++-14 gcc-14 clang-format
+
+# Telescope live grep
+sudo apt install ripgrep
+
+# Node.js tools (ts_ls, prettier, tree-sitter-cli)
+npm install -g tree-sitter-cli prettier
+
+# Go tools (goimports for formatting)
+go install golang.org/x/tools/cmd/goimports@latest
+# Ensure $(go env GOPATH)/bin is on $PATH
+
+# clangd C++23 + C POSIX default — create ~/.config/clangd/config.yaml:
+# CompileFlags:
+#   Add: [-std=c++23]
+# ---
+# If:
+#   PathMatch: .*\.c$
+# CompileFlags:
+#   Add: [-std=c17, -D_POSIX_C_SOURCE=200809L]
+#   Remove: [-std=c++23]
 ```
 
 ## Extending the config

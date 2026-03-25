@@ -12,7 +12,7 @@ return {
     lazy = false,
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint' },
+      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls' },
       -- Only enable servers we explicitly call vim.lsp.enable() on below.
       automatic_enable = false,
     },
@@ -207,6 +207,26 @@ return {
       -- eslint LSP surfaces ESLint diagnostics inline and provides
       -- an :EslintFixAll code action.
       vim.lsp.enable('eslint')
+
+      -- ── Go ──────────────────────────────────────────────────────────
+      -- gopls: official Go LSP. Handles completions, diagnostics,
+      -- autoimports, and rich inlay hints.
+      vim.lsp.config('gopls', {
+        settings = {
+          gopls = {
+            hints = {
+              assignVariableTypes    = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes  = true,
+              constantValues         = true,
+              functionTypeParameters = true,
+              parameterNames         = true,
+              rangeVariableTypes     = true,
+            },
+          },
+        },
+      })
+      vim.lsp.enable('gopls')
 
       -- ---------------------------------------------------------------
       -- To add more servers:

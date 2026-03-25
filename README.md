@@ -62,10 +62,10 @@ alias vt='vimt'
 ### 4. System dependencies
 
 ```bash
-# C++ compiler (C++23 + std::print support)
-sudo apt install g++-14
+# C/C++ compiler (C++23 + C17, includes std::print support)
+sudo apt install g++-14 gcc-14
 
-# C++ formatting and linting
+# C/C++ formatting
 sudo apt install clang-format
 
 # Telescope live grep
@@ -76,16 +76,30 @@ npm install -g tree-sitter-cli
 
 # Prettier (web formatting; also works per-project via node_modules)
 npm install -g prettier
+
+# Go formatter (gofmt + automatic import management)
+go install golang.org/x/tools/cmd/goimports@latest
 ```
 
-### 5. clangd C++23 default
+Ensure `$(go env GOPATH)/bin` is on your `$PATH` in `~/.bashrc` for `goimports` to work.
 
-Create `~/.config/clangd/config.yaml` so clangd defaults to C++23 for
-files without a `compile_commands.json`:
+### 5. clangd config
+
+Create `~/.config/clangd/config.yaml` so clangd defaults to the right
+standard for files without a `compile_commands.json`:
 
 ```yaml
 CompileFlags:
+  # Default to C++23 for C++ files.
   Add: [-std=c++23]
+
+---
+# C files: use C17 + enable POSIX 2008 (strdup, getline, etc.)
+If:
+  PathMatch: .*\.c$
+CompileFlags:
+  Add: [-std=c17, -D_POSIX_C_SOURCE=200809L]
+  Remove: [-std=c++23]
 ```
 
 ### 6. First launch
@@ -95,7 +109,7 @@ vimt
 ```
 
 On first launch lazy.nvim bootstraps itself and installs all plugins.
-Mason then installs the LSP servers (`lua_ls`, `clangd`, `ts_ls`, `eslint`)
+Mason then installs the LSP servers (`lua_ls`, `clangd`, `ts_ls`, `eslint`, `gopls`)
 automatically. Run `:TSUpdate` to compile treesitter parsers.
 
 ---
@@ -120,7 +134,10 @@ automatically. Run `:TSUpdate` to compile treesitter parsers.
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Treesitter syntax highlighting |
 | [conform.nvim](https://github.com/stevearc/conform.nvim) | Autoformat on save |
 | [nvim-lint](https://github.com/mfussenegger/nvim-lint) | Linting framework |
-| [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Embedded terminal + C++ compile/run keymaps |
+| [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim) | Embedded terminal + C/C++ compile/run keymaps |
+| [nvim-dap](https://github.com/mfussenegger/nvim-dap) | Debug adapter protocol client |
+| [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) | Visual debugger UI |
+| [nvim-dap-virtual-text](https://github.com/theHamsta/nvim-dap-virtual-text) | Inline variable values while debugging |
 
 ## LSP servers
 
@@ -132,6 +149,7 @@ Uses Neovim 0.11's native `vim.lsp.config()` / `vim.lsp.enable()` API.
 | `clangd` | C / C++ — background indexing, clang-tidy, autoimport, inlay hints |
 | `ts_ls` | TypeScript / JavaScript / JSX / TSX / Node.js — inlay hints enabled |
 | `eslint` | TypeScript / JavaScript linting |
+| `gopls` | Go — completions, diagnostics, autoimports, inlay hints |
 
 To add a server: add its Mason package to `ensure_installed` in `lua/plugins/lsp.lua`, then call `vim.lsp.enable('server_name')`.
 
@@ -143,6 +161,7 @@ Handled by conform.nvim, runs on save.
 |-----------|-----------|
 | `clang-format` | C, C++ — uses `~/.clang-format` (Allman braces, Google base style) |
 | `prettier` | JS, TS, JSX, TSX, HTML, CSS, JSON, YAML |
+| `goimports` | Go — gofmt + automatic import management |
 
 ## Key bindings
 
@@ -242,6 +261,20 @@ Compiler: `g++-14 -std=c++23 -O2 -Wall -Wextra -Wconversion -g`
 | `<CR>` | Open file or directory |
 | `g.` | Toggle hidden files |
 | `g?` | Show all keymaps |
+
+### Debugger — nvim-dap (active in C/C++ buffers)
+
+| Key | Action |
+|-----|--------|
+| `<F1>` | Toggle breakpoint |
+| `<F2>` | Continue |
+| `<F3>` | Step over |
+| `<F4>` | Step into |
+| `<F8>` | Step out |
+| `<leader>dr` | Restart session |
+| `<leader>dq` | Terminate session |
+| `<leader>du` | Toggle debugger UI |
+| `<leader>de` | Evaluate expression under cursor |
 
 ### Editing
 

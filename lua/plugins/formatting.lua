@@ -25,6 +25,10 @@ return {
         css             = { 'prettier' },
         json            = { 'prettier' },
         yaml            = { 'prettier' },
+
+        -- Go: goimports = gofmt + automatic import management.
+        -- Install: go install golang.org/x/tools/cmd/goimports@latest
+        go = { 'goimports' },
       },
 
       -- Format synchronously on save.
