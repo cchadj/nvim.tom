@@ -67,9 +67,15 @@ return {
           end
 
           -- Builds the compile command string.
+          -- Uses gcc-14 for C files, g++-14 for C++.
           local function compile_cmd(src, out)
+            local is_c = vim.bo.filetype == 'c'
+            local compiler = is_c and 'gcc-14'      or 'g++-14'
+            local std      = is_c and '-std=c17'    or '-std=c++23'
+            local posix    = is_c and '-D_POSIX_C_SOURCE=200809L' or ''
             return string.format(
-              'g++-14 -std=c++23 -O2 -Wall -Wextra -Wconversion -g -o %s %s',
+              '%s %s %s -O2 -Wall -Wextra -Wconversion -g -o %s %s',
+              compiler, std, posix,
               vim.fn.shellescape(out),
               vim.fn.shellescape(src)
             )
@@ -118,7 +124,18 @@ return {
             local stderr_lines = {}
 
             vim.fn.jobstart(
-              { 'g++-14', '-std=c++23', '-O2', '-Wall', '-Wextra', '-Wconversion', '-g', '-o', out, src },
+              (function()
+                local is_c = vim.bo.filetype == 'c'
+                local args = {
+                  is_c and 'gcc-14' or 'g++-14',
+                  is_c and '-std=c17' or '-std=c++23',
+                }
+                if is_c then
+                  table.insert(args, '-D_POSIX_C_SOURCE=200809L')
+                end
+                vim.list_extend(args, { '-O2', '-Wall', '-Wextra', '-Wconversion', '-g', '-o', out, src })
+                return args
+              end)(),
               {
                 stderr_buffered = true,
                 on_stderr = function(_, data)
