@@ -24,6 +24,7 @@ return {
         html            = { 'prettier' },
         css             = { 'prettier' },
         json            = { 'prettier' },
+        jsonc           = { 'prettier' }, -- tsconfig.json and similar use jsonc filetype
         yaml            = { 'prettier' },
 
         -- Go: goimports = gofmt + automatic import management.
