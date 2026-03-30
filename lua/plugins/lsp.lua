@@ -12,7 +12,7 @@ return {
     lazy = false,
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls' },
+      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls', 'jsonls' },
       -- Only enable servers we explicitly call vim.lsp.enable() on below.
       automatic_enable = false,
     },
@@ -227,6 +227,20 @@ return {
         },
       })
       vim.lsp.enable('gopls')
+
+      -- ── JSON ────────────────────────────────────────────────────────
+      -- jsonls: schema validation, hover docs, and completions for JSON
+      -- files. Schemas are sourced from SchemaStore (package.json,
+      -- tsconfig.json, .eslintrc, etc. are auto-detected).
+      vim.lsp.config('jsonls', {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      })
+      vim.lsp.enable('jsonls')
 
       -- ---------------------------------------------------------------
       -- To add more servers:
