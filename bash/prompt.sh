@@ -1,7 +1,9 @@
 # prompt.sh — bash prompt configuration
 #
 # Source from ~/.bashrc:
-#   source ~/.config/nvim.tom/bash/prompt.sh
+#   _f=~/.config/nvim.tom/bash/prompt.sh
+#   [[ -f "$_f" ]] && source "$_f" || echo "ERROR: nvim.tom prompt not found: $_f" >&2
+#   unset _f
 #
 # Prompt layout:
 #   (blank line)
