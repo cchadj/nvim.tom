@@ -32,9 +32,8 @@ return {
         go = { 'goimports' },
 
         -- Shell: shfmt formats bash/sh scripts.
-        -- Install: go install mvdan.cc/sh/v3/cmd/shfmt@latest
-        sh   = { 'shfmt' },
-        bash = { 'shfmt' },
+        -- Install via Mason: :MasonInstall shfmt
+        sh = { 'shfmt' },
       },
 
       -- Format synchronously on save.

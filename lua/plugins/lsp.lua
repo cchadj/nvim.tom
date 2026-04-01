@@ -3,7 +3,10 @@ return {
   {
     'mason-org/mason.nvim',
     lazy = false,
-    opts = {},
+    opts = {
+      -- Non-LSP tools managed by Mason (formatters, linters, DAP adapters).
+      ensure_installed = { 'shfmt' },
+    },
   },
 
   -- mason-lspconfig: bridges Mason's install registry with nvim-lspconfig server names.
