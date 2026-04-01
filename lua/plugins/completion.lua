@@ -37,6 +37,10 @@ return {
           ['<C-f>']     = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<CR>']      = cmp.mapping.confirm({ select = true }),
+          ['<Esc>']     = cmp.mapping(function(fallback)
+            if cmp.visible() then cmp.abort() end
+            fallback() -- exits insert mode
+          end, { 'i' }),
 
           -- Tab: advance through completion list OR jump snippet placeholder.
           ['<Tab>'] = cmp.mapping(function(fallback)
