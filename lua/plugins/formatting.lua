@@ -34,6 +34,10 @@ return {
         -- Shell: shfmt formats bash/sh scripts.
         -- Install via Mason: :MasonInstall shfmt
         sh = { 'shfmt' },
+
+        -- SQL: sql-formatter handles MySQL, PostgreSQL, and others.
+        -- Install via Mason: :MasonInstall sql-formatter
+        sql = { 'sql_formatter' },
       },
 
       -- Format synchronously on save.
