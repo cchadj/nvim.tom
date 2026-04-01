@@ -1,4 +1,4 @@
--- toggleterm.lua — embedded terminal + competitive C++ runner
+-- toggleterm.lua — embedded terminal + language runners
 --
 -- Global keymaps:
 --   <leader>tt          toggle terminal (horizontal split)
@@ -10,12 +10,16 @@
 --   <F7>        write → compile → run with < <exec-name>.txt (e.g. main.txt)
 --   <F9>        write → compile only → errors into quickfix
 --   <leader>cp  create new problem file from templates/cp.cpp
+--
+-- Go keymaps (FileType autocmd, buffer-local):
+--   <F5>        write → go run .
+--   <F9>        write → go build . → errors into quickfix
 
 return {
   {
     'akinsho/toggleterm.nvim',
     version = '*',
-    ft = { 'c', 'cpp' },
+    ft = { 'c', 'cpp', 'go' },
     keys = {
       { '<leader>tt', desc = 'Terminal: toggle' },
       { '<leader>ts', desc = 'Terminal: send line',      mode = 'n' },
@@ -200,6 +204,60 @@ return {
               vim.cmd('edit ' .. vim.fn.fnameescape(newfile))
             end)
           end, 'New problem from template')
+
+        end, -- FileType callback
+      })
+
+      -- ---------------------------------------------------------------
+      -- Go runner
+      -- ---------------------------------------------------------------
+      vim.api.nvim_create_autocmd('FileType', {
+        group   = vim.api.nvim_create_augroup('nvimtom-go-runner', { clear = true }),
+        pattern = { 'go' },
+        callback = function(event)
+
+          local function buf_map(keys, func, desc)
+            vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'Go: ' .. desc })
+          end
+
+          -- ── F5: go run . ──────────────────────────────────────────
+          buf_map('<F5>', function()
+            vim.cmd('write')
+            local dir = vim.fn.expand('%:p:h')
+            local cmd = 'cd ' .. vim.fn.shellescape(dir) .. ' && go run .'
+            require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
+          end, 'F5: go run .')
+
+          -- ── F9: go build . → quickfix ─────────────────────────────
+          buf_map('<F9>', function()
+            vim.cmd('write')
+            local dir = vim.fn.expand('%:p:h')
+            local stderr_lines = {}
+
+            vim.fn.jobstart({ 'go', 'build', './...' }, {
+              cwd            = dir,
+              stderr_buffered = true,
+              on_stderr = function(_, data)
+                if data then vim.list_extend(stderr_lines, data) end
+              end,
+              on_exit = function(_, code)
+                if code == 0 then
+                  vim.notify('Build OK', vim.log.levels.INFO)
+                  vim.fn.setqflist({}, 'r')
+                  vim.cmd('cclose')
+                else
+                  vim.fn.setqflist({}, 'r', {
+                    title = 'Go build errors',
+                    lines = stderr_lines,
+                    efm   = '%f:%l:%c: %m,%f:%l: %m',
+                  })
+                  vim.cmd('copen')
+                  vim.cmd('cfirst')
+                  vim.notify('Build failed — see quickfix', vim.log.levels.ERROR)
+                end
+              end,
+            })
+          end, 'F9: go build → quickfix')
 
         end, -- FileType callback
       })
