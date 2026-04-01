@@ -38,11 +38,20 @@ return {
         -- SQL: sql-formatter handles MySQL, PostgreSQL, and others.
         -- Install via Mason: :MasonInstall sql-formatter
         sql = { 'sql_formatter' },
+        mysql = { 'sql_formatter' },
       },
 
       -- Format synchronously on save.
       -- lsp_fallback: if conform has no formatter for the filetype, ask the
       -- LSP to format instead (e.g. for languages not listed above).
+      formatters = {
+        sql_formatter = {
+          prepend_args = {
+            '--config', vim.fn.stdpath('config') .. '/sql/sql-formatter.json',
+          },
+        },
+      },
+
       format_on_save = {
         timeout_ms   = 500,
         lsp_fallback = true,

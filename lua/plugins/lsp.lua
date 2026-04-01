@@ -15,7 +15,7 @@ return {
     lazy = false,
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls', 'jsonls', 'sqls' },
+      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls', 'jsonls' },
       -- Only enable servers we explicitly call vim.lsp.enable() on below.
       automatic_enable = false,
     },
@@ -245,13 +245,8 @@ return {
       })
       vim.lsp.enable('jsonls')
 
-      -- ── SQL / MySQL ──────────────────────────────────────────────────
-      -- sqls: SQL language server with completions and schema awareness.
-      -- Configure database connections in ~/.config/sqls/config.yml:
-      --   connections:
-      --     - driver: mysql
-      --       dataSourceName: 'user:password@tcp(127.0.0.1:3306)/dbname'
-      vim.lsp.enable('sqls')
+      -- SQL completions are handled by vim-dadbod-completion (dadbod.lua),
+      -- not an LSP server — no sqls needed.
 
       -- ---------------------------------------------------------------
       -- To add more servers:
