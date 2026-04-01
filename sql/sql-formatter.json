@@ -1,7 +1,10 @@
 {
   "language": "mysql",
   "tabWidth": 2,
+  "useTabs": false,
   "keywordCase": "upper",
-  "indentStyle": "tabularLeft",
+  "dataTypeCase": "upper",
+  "functionCase": "upper",
+  "indentStyle": "standard",
   "linesBetweenQueries": 1
 }
