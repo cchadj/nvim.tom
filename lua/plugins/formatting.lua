@@ -30,6 +30,11 @@ return {
         -- Go: goimports = gofmt + automatic import management.
         -- Install: go install golang.org/x/tools/cmd/goimports@latest
         go = { 'goimports' },
+
+        -- Shell: shfmt formats bash/sh scripts.
+        -- Install: go install mvdan.cc/sh/v3/cmd/shfmt@latest
+        sh   = { 'shfmt' },
+        bash = { 'shfmt' },
       },
 
       -- Format synchronously on save.
