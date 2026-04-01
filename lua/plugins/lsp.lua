@@ -76,7 +76,11 @@ return {
 
           -- Information
           map('K',     vim.lsp.buf.hover,          'Hover Documentation')
-          map('<C-k>', vim.lsp.buf.signature_help, 'Signature Help')
+          -- Signature help: <C-s> in normal mode; also set in insert mode below.
+          -- <C-k> is reserved for vim-tmux-navigator (navigate up).
+          map('<C-s>', vim.lsp.buf.signature_help, 'Signature Help')
+          vim.keymap.set('i', '<C-s>', vim.lsp.buf.signature_help,
+            { buffer = event.buf, desc = 'LSP: Signature Help' })
 
           -- Actions
           map('<leader>rn', vim.lsp.buf.rename,      'Rename Symbol')
