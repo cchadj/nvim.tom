@@ -79,9 +79,12 @@ npm install -g prettier
 
 # Go formatter (gofmt + automatic import management)
 go install golang.org/x/tools/cmd/goimports@latest
+
+# Go hot-reload for web servers (gin-gonic etc.)
+go install github.com/air-verse/air@latest
 ```
 
-Ensure `$(go env GOPATH)/bin` is on your `$PATH` in `~/.bashrc` for `goimports` to work.
+Ensure `$(go env GOPATH)/bin` is on your `$PATH` in `~/.bashrc` for `goimports` and `air` to work.
 
 ### 5. clangd config
 

@@ -12,9 +12,9 @@
 --   <leader>cp  create new problem file from templates/cp.cpp
 --
 -- Go keymaps (FileType autocmd, buffer-local):
---   <F5>        write → go run .
+--   <F5>        write → air (if .air.toml exists) / go run . / go test -v .
 --   <F8>        go mod tidy → restart gopls
---   <F9>        write → go build . → errors into quickfix
+--   <F9>        write → go build ./... → errors into quickfix
 
 return {
   {
@@ -221,16 +221,40 @@ return {
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'Go: ' .. desc })
           end
 
-          -- ── F5: go run . / go test -v . ───────────────────────────
-          -- Runs go test -v . for _test.go files, go run . otherwise.
+          -- Returns the directory containing go.mod, walking up from dir.
+          -- Falls back to dir itself if go.mod is not found.
+          local function go_root(dir)
+            local d = dir
+            while d ~= '/' do
+              if vim.fn.filereadable(d .. '/go.mod') == 1 then return d end
+              d = vim.fn.fnamemodify(d, ':h')
+            end
+            return dir
+          end
+
+          -- ── F5: air (hot-reload) / go run . / go test -v . ───────
+          -- Priority:
+          --   1. _test.go → go test -v .
+          --   2. .air.toml present in module root → air (hot reload)
+          --   3. fallback → go run .
+          -- Install air: go install github.com/air-verse/air@latest
+          -- Init config:  air init   (run once in your project root)
           buf_map('<F5>', function()
             vim.cmd('write')
             local dir  = vim.fn.expand('%:p:h')
             local file = vim.fn.expand('%:t')
-            local subcmd = file:match('_test%.go$') and 'go test -v .' or 'go run .'
-            local cmd = 'cd ' .. vim.fn.shellescape(dir) .. ' && ' .. subcmd
+            local root = go_root(dir)
+            local subcmd
+            if file:match('_test%.go$') then
+              subcmd = 'go test -v .'
+            elseif vim.fn.filereadable(root .. '/.air.toml') == 1 then
+              subcmd = 'air'
+            else
+              subcmd = 'go run .'
+            end
+            local cmd = 'cd ' .. vim.fn.shellescape(root) .. ' && ' .. subcmd
             require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
-          end, 'F5: go run . / go test -v .')
+          end, 'F5: air / go run . / go test -v .')
 
           -- ── F8: go mod tidy → restart gopls ──────────────────────
           buf_map('<F8>', function()

@@ -47,8 +47,9 @@ sudo apt install ripgrep
 # Node.js tools (ts_ls, prettier, tree-sitter-cli)
 npm install -g tree-sitter-cli prettier
 
-# Go tools (goimports for formatting)
+# Go tools (goimports for formatting, air for hot reload)
 go install golang.org/x/tools/cmd/goimports@latest
+go install github.com/air-verse/air@latest
 # Ensure $(go env GOPATH)/bin is on $PATH
 
 # clangd C++23 + C POSIX default — create ~/.config/clangd/config.yaml:
