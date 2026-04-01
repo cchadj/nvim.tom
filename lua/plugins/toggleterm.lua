@@ -221,13 +221,16 @@ return {
             vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'Go: ' .. desc })
           end
 
-          -- ── F5: go run . ──────────────────────────────────────────
+          -- ── F5: go run . / go test -v . ───────────────────────────
+          -- Runs go test -v . for _test.go files, go run . otherwise.
           buf_map('<F5>', function()
             vim.cmd('write')
-            local dir = vim.fn.expand('%:p:h')
-            local cmd = 'cd ' .. vim.fn.shellescape(dir) .. ' && go run .'
+            local dir  = vim.fn.expand('%:p:h')
+            local file = vim.fn.expand('%:t')
+            local subcmd = file:match('_test%.go$') and 'go test -v .' or 'go run .'
+            local cmd = 'cd ' .. vim.fn.shellescape(dir) .. ' && ' .. subcmd
             require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
-          end, 'F5: go run .')
+          end, 'F5: go run . / go test -v .')
 
           -- ── F8: go mod tidy → restart gopls ──────────────────────
           buf_map('<F8>', function()
