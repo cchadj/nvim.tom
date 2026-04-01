@@ -37,10 +37,6 @@ return {
           ['<C-f>']     = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<CR>']      = cmp.mapping.confirm({ select = true }),
-          ['<Esc>']     = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.abort() end
-            fallback() -- exits insert mode
-          end, { 'i' }),
 
           -- Tab: advance through completion list OR jump snippet placeholder.
           ['<Tab>'] = cmp.mapping(function(fallback)
@@ -74,6 +70,14 @@ return {
           { name = 'path' },     -- filesystem paths
         }),
       })
+
+      -- Override cmp's internal <Esc> handler which only closes the popup
+      -- without exiting insert mode. This mapping takes priority because it
+      -- is set after cmp.setup() as a plain insert keymap.
+      vim.keymap.set('i', '<Esc>', function()
+        if cmp.visible() then cmp.abort() end
+        vim.cmd('stopinsert')
+      end, { desc = 'Close completion and exit insert' })
     end,
   },
 }
