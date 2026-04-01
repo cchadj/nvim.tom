@@ -13,6 +13,7 @@
 --
 -- Go keymaps (FileType autocmd, buffer-local):
 --   <F5>        write → go run .
+--   <F8>        go mod tidy → restart gopls
 --   <F9>        write → go build . → errors into quickfix
 
 return {
@@ -227,6 +228,23 @@ return {
             local cmd = 'cd ' .. vim.fn.shellescape(dir) .. ' && go run .'
             require('toggleterm').exec(cmd, 1, 15, nil, nil, nil, true)
           end, 'F5: go run .')
+
+          -- ── F8: go mod tidy → restart gopls ──────────────────────
+          buf_map('<F8>', function()
+            local dir = vim.fn.expand('%:p:h')
+            vim.notify('Running go mod tidy…', vim.log.levels.INFO)
+            vim.fn.jobstart({ 'go', 'mod', 'tidy' }, {
+              cwd      = dir,
+              on_exit  = function(_, code)
+                if code == 0 then
+                  vim.notify('go mod tidy done — restarting gopls', vim.log.levels.INFO)
+                  vim.cmd('LspRestart')
+                else
+                  vim.notify('go mod tidy failed', vim.log.levels.ERROR)
+                end
+              end,
+            })
+          end, 'F8: go mod tidy')
 
           -- ── F9: go build . → quickfix ─────────────────────────────
           buf_map('<F9>', function()
