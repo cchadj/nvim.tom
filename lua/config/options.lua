@@ -19,5 +19,4 @@ opt.splitbelow = true
 opt.splitright = true
 opt.termguicolors = true
 opt.updatetime = 250        -- faster CursorHold (used by LSP document highlight)
-opt.timeoutlen  = 300  -- mapped key sequence timeout (e.g. <leader> combos)
-opt.ttimeoutlen = 10   -- terminal key code timeout — keeps Esc instant
+opt.timeoutlen = 300

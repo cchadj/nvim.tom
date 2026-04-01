@@ -70,14 +70,6 @@ return {
           { name = 'path' },     -- filesystem paths
         }),
       })
-
-      -- Override cmp's internal <Esc> handler which only closes the popup
-      -- without exiting insert mode. This mapping takes priority because it
-      -- is set after cmp.setup() as a plain insert keymap.
-      vim.keymap.set('i', '<Esc>', function()
-        if cmp.visible() then cmp.abort() end
-        vim.cmd('stopinsert')
-      end, { desc = 'Close completion and exit insert' })
     end,
   },
 }
