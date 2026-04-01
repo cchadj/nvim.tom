@@ -7,6 +7,19 @@ return {
       -- Non-LSP tools managed by Mason (formatters, linters, DAP adapters).
       ensure_installed = { 'shfmt', 'sql-formatter' },
     },
+    config = function(_, opts)
+      require('mason').setup(opts)
+      -- Auto-install any tools listed in ensure_installed that aren't present.
+      local mr = require('mason-registry')
+      mr.refresh(function()
+        for _, tool in ipairs(opts.ensure_installed or {}) do
+          local p = mr.get_package(tool)
+          if not p:is_installed() then
+            p:install()
+          end
+        end
+      end)
+    end,
   },
 
   -- mason-lspconfig: bridges Mason's install registry with nvim-lspconfig server names.
