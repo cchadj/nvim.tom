@@ -4,13 +4,14 @@
 -- for schema-aware completions (table/column names).
 
 return {
-  { 'tpope/vim-dadbod', lazy = true },
   {
     'kristijanhusak/vim-dadbod-completion',
-    ft       = { 'sql', 'mysql', 'plsql' },
-    lazy     = true,
-    config   = function()
+    ft           = { 'sql', 'mysql', 'plsql' },
+    lazy         = true,
+    dependencies = { 'tpope/vim-dadbod' },
+    config       = function()
       -- Register dadbod as a cmp source for SQL buffers.
+      -- vim-dadbod must be loaded (via dependencies) for keyword completions to work.
       local cmp = require('cmp')
       cmp.setup.filetype({ 'sql', 'mysql', 'plsql' }, {
         sources = cmp.config.sources({

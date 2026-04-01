@@ -3,23 +3,24 @@ return {
   {
     'mason-org/mason.nvim',
     lazy = false,
+    opts = {},
+  },
+
+  -- mason-tool-installer: auto-installs non-LSP Mason tools on startup.
+  -- LSP servers are handled by mason-lspconfig above.
+  {
+    'WhoIsSethDaniel/mason-tool-installer.nvim',
+    lazy = false,
+    dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      -- Non-LSP tools managed by Mason (formatters, linters, DAP adapters).
-      ensure_installed = { 'shfmt', 'sql-formatter' },
+      ensure_installed = {
+        'shfmt',         -- shell formatter
+        'sql-formatter', -- SQL formatter
+        'codelldb',      -- C/C++ debugger adapter
+      },
+      auto_update     = false,
+      run_on_start    = true,
     },
-    config = function(_, opts)
-      require('mason').setup(opts)
-      -- Auto-install any tools listed in ensure_installed that aren't present.
-      local mr = require('mason-registry')
-      mr.refresh(function()
-        for _, tool in ipairs(opts.ensure_installed or {}) do
-          local p = mr.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
-        end
-      end)
-    end,
   },
 
   -- mason-lspconfig: bridges Mason's install registry with nvim-lspconfig server names.

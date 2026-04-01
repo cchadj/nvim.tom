@@ -23,14 +23,7 @@ return {
       },
       -- Shows variable values inline in the buffer while debugging.
       'theHamsta/nvim-dap-virtual-text',
-      -- Installs codelldb via Mason.
-      {
-        'mason-org/mason.nvim',
-        opts = function(_, opts)
-          opts.ensure_installed = opts.ensure_installed or {}
-          vim.list_extend(opts.ensure_installed, { 'codelldb' })
-        end,
-      },
+      -- codelldb is installed via mason-tool-installer (lsp.lua ensure_installed).
     },
 
     config = function()
