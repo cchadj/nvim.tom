@@ -52,6 +52,9 @@ go install golang.org/x/tools/cmd/goimports@latest
 go install github.com/air-verse/air@latest
 # Ensure $(go env GOPATH)/bin is on $PATH
 
+# Python tools (Mason's ruff package is unreliable on WSL2 — use pip)
+pip install ruff
+
 # clangd C++23 + C POSIX default — create ~/.config/clangd/config.yaml:
 # CompileFlags:
 #   Add: [-std=c++23]

@@ -17,7 +17,10 @@ return {
         'shfmt',         -- shell formatter
         'sql-formatter', -- SQL formatter
         'codelldb',      -- C/C++ debugger adapter
-        'ruff',          -- Python formatter + linter
+        -- ruff (Python formatter + linter) is NOT installed via Mason.
+        -- Mason's ruff package is unreliable on WSL2. Install via pip instead:
+        --   pip install ruff
+        -- conform.nvim and nvim-lint will find it on PATH automatically.
       },
       auto_update     = false,
       run_on_start    = true,

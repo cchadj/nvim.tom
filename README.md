@@ -86,8 +86,12 @@ go install github.com/air-verse/air@latest
 
 Ensure `$(go env GOPATH)/bin` is on your `$PATH` in `~/.bashrc` for `goimports` and `air` to work.
 
-> **Python**: `pyright` (LSP), `ruff` (formatter + linter) are installed automatically
-> by Mason on first launch — no manual steps required.
+> **Python**: `pyright` (LSP) is installed automatically by Mason on first launch.
+> `ruff` (formatter + linter) must be installed via pip — Mason's ruff package is
+> unreliable on WSL2:
+> ```bash
+> pip install ruff
+> ```
 
 ### 5. clangd config
 
