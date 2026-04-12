@@ -86,6 +86,9 @@ go install github.com/air-verse/air@latest
 
 Ensure `$(go env GOPATH)/bin` is on your `$PATH` in `~/.bashrc` for `goimports` and `air` to work.
 
+> **Python**: `pyright` (LSP), `ruff` (formatter + linter) are installed automatically
+> by Mason on first launch — no manual steps required.
+
 ### 5. clangd config
 
 Create `~/.config/clangd/config.yaml` so clangd defaults to the right
@@ -165,6 +168,7 @@ Handled by conform.nvim, runs on save.
 | `clang-format` | C, C++ — uses `~/.clang-format` (Allman braces, Google base style) |
 | `prettier` | JS, TS, JSX, TSX, HTML, CSS, JSON, YAML |
 | `goimports` | Go — gofmt + automatic import management |
+| `ruff-format` | Python — fast formatter (black-compatible, respects pyproject.toml) |
 
 ## Key bindings
 

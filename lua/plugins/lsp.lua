@@ -17,6 +17,7 @@ return {
         'shfmt',         -- shell formatter
         'sql-formatter', -- SQL formatter
         'codelldb',      -- C/C++ debugger adapter
+        'ruff',          -- Python formatter + linter
       },
       auto_update     = false,
       run_on_start    = true,
@@ -29,7 +30,7 @@ return {
     lazy = false,
     dependencies = { 'mason-org/mason.nvim' },
     opts = {
-      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls', 'jsonls' },
+      ensure_installed = { 'lua_ls', 'clangd', 'ts_ls', 'eslint', 'gopls', 'jsonls', 'pyright' },
       -- Only enable servers we explicitly call vim.lsp.enable() on below.
       automatic_enable = false,
     },
@@ -262,6 +263,31 @@ return {
         },
       })
       vim.lsp.enable('jsonls')
+
+      -- ── Python ──────────────────────────────────────────────────────
+      -- pyright: Microsoft's static type checker and LSP for Python.
+      -- Provides completions, go-to-def, type diagnostics, and inlay hints.
+      -- Formatting and linting are handled by ruff (formatting.lua/linting.lua).
+      vim.lsp.config('pyright', {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = 'basic',
+              -- Disable import diagnostics — ruff handles missing-import linting.
+              diagnosticSeverityOverrides = {
+                reportMissingImports = 'none',
+              },
+              inlayHints = {
+                variableTypes      = true,
+                functionReturnTypes = true,
+                callArgumentNames  = true,
+                pytestParameters   = true,
+              },
+            },
+          },
+        },
+      })
+      vim.lsp.enable('pyright')
 
       -- SQL completions are handled by vim-dadbod-completion (dadbod.lua),
       -- not an LSP server — no sqls needed.

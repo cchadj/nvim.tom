@@ -10,10 +10,11 @@ return {
         -- clangd already runs clang-tidy inline via --clang-tidy and reports
         -- results as LSP diagnostics. Adding clangtidy here would run it a
         -- second time and produce duplicate entries in the diagnostics list.
-        --
-        -- Add other languages here as needed, e.g.:
-        --   sh  = { 'shellcheck' },
-        --   py  = { 'pylint' },
+
+        -- Python: ruff covers style (PEP8), unused imports, and common bugs.
+        -- pyright handles type errors; ruff handles everything else.
+        -- Install via Mason: auto-installed by mason-tool-installer (lsp.lua).
+        python = { 'ruff' },
       }
 
       -- Re-lint on write and on entering a buffer, so diagnostics are always

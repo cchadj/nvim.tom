@@ -27,6 +27,10 @@ return {
         jsonc           = { 'prettier' }, -- tsconfig.json and similar use jsonc filetype
         yaml            = { 'prettier' },
 
+        -- Python: ruff-format (drop-in replacement for black, respects pyproject.toml).
+        -- Install via Mason: auto-installed by mason-tool-installer.
+        python = { 'ruff_format' },
+
         -- Go: goimports = gofmt + automatic import management.
         -- Install: go install golang.org/x/tools/cmd/goimports@latest
         go = { 'goimports' },
