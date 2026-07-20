@@ -16,8 +16,11 @@ lua/
     keymaps.lua             -- global keymaps (comment toggle, terminal escape)
     lazy.lua                -- lazy.nvim bootstrap + plugin discovery
   plugins/
+    autopairs.lua           -- auto-close brackets/quotes, nvim-cmp integration
+    dadbod.lua              -- SQL keyword completions (vim-dadbod-completion, :DBUI)
     lsp.lua                 -- mason, mason-lspconfig, nvim-lspconfig, all LSP servers
     oil.lua                 -- file explorer (stevearc/oil.nvim)
+    schemastore.lua         -- JSON/YAML schema catalogue for jsonls/yamlls
     vim-tmux-navigator.lua  -- seamless vim/tmux split navigation
     telescope.lua           -- fuzzy finder (files, grep, buffers, LSP symbols)
     nvim-tree.lua           -- sidebar file tree (nvim-tree/nvim-tree.lua)
@@ -31,6 +34,14 @@ lua/
     colorscheme.lua         -- catppuccin (mocha)
 templates/
   cp.cpp                    -- competitive programming boilerplate
+bash/
+  prompt.sh                 -- two-line bash prompt (sourced from ~/.bashrc)
+sql/
+  sql-formatter.json        -- sql-formatter config (tabular style, standard indent)
+tmux/
+  neovim.conf               -- tmux settings for Neovim (escape-time, etc.)
+  pane-resize.conf          -- Alt+hjkl pane resizing
+  vim-tmux-navigator.conf   -- seamless vim/tmux split navigation bindings
 docs/
   design.md                 -- human-readable design decisions log
 ```
